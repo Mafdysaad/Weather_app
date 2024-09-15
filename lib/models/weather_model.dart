@@ -21,7 +21,5 @@ class WeatherModel {
         temp: Data["current"]["temp_c"],
         maxTemp: weathertemp["maxtemp_c"],
         minTemp: weathertemp["mintemp_c"]);
-    //mafdy saad
-    //ie
   }
 }
