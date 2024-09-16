@@ -1,9 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:weather/models/weather_model.dart';
+
 import 'package:weather/services/weather_services.dart';
 
 class Search extends StatelessWidget {
-  String? search;
-
+  VoidCallback? funct;
+  Search({
+    required this.funct,
+  });
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,8 +21,13 @@ class Search extends StatelessWidget {
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 9),
           child: TextField(
-              onSubmitted: (value) {
-                WeatherServices().getweather(CityName: value);
+              onSubmitted: (value) async {
+                Future<WeatherModel> data =
+                    WeatherServices().getweather(CityName: value);
+
+                weathermodel = await data;
+                funct!();
+                Navigator.pop(context);
               },
               autofocus: true,
               decoration: const InputDecoration(
@@ -30,3 +40,5 @@ class Search extends StatelessWidget {
         )));
   }
 }
+
+WeatherModel? weathermodel;
