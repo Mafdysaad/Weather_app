@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/models/weather_model.dart';
+
 import 'package:weather/pages/home.dart';
+import 'package:weather/provider/weather_provider.dart';
 
 void main() {
-  runApp(const Weather());
+  runApp(ChangeNotifierProvider(
+      create: (context) => weatherProvider(), child: const Weather()));
 }
 
 class Weather extends StatelessWidget {
@@ -12,8 +16,15 @@ class Weather extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Homepage(),
-    );
+        debugShowCheckedModeBanner: false,
+        home: Homepage(),
+        theme: ThemeData.light().copyWith(
+            appBarTheme: AppBarTheme(
+                backgroundColor:
+                    Provider.of<weatherProvider>(context).getweather == null
+                        ? Colors.blue
+                        : Provider.of<weatherProvider>(context)
+                            .getweather!
+                            .getcolor())));
   }
 }
