@@ -24,7 +24,8 @@ class Search extends StatelessWidget {
               onSubmitted: (value) async {
                 BlocProvider.of<WeatherCubit>(context).cityname = value;
 
-                BlocProvider.of<WeatherCubit>(context).getweather(value);
+                BlocProvider.of<WeatherCubit>(context)
+                    .getweather(cityname: value);
 
                 Navigator.pop(context);
               },
@@ -32,7 +33,8 @@ class Search extends StatelessWidget {
               decoration: InputDecoration(
                 suffixIcon: GestureDetector(
                   onTap: () async {
-                    BlocProvider.of<WeatherCubit>(context).getweather(value!);
+                    BlocProvider.of<WeatherCubit>(context)
+                        .getweather(cityname: value!);
                     BlocProvider.of<WeatherCubit>(context).cityname = value;
                     Navigator.pop(context);
                   },

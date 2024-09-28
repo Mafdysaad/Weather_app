@@ -10,9 +10,9 @@ class WeatherCubit extends Cubit<Weatherstate> {
   // super(Defauilt()) => inatila state
   WeatherCubit({required this.weather}) : super(Defauilt());
 
-  getweather(String cityname) async {
+  void getweather({required String cityname}) async {
+    emit(Loading());
     try {
-      emit(Loading());
       weatherModel = await weather.getweather(CityName: cityname);
       print('==============>${weatherModel!.getcolor()}');
       emit(Success(weather: weatherModel));

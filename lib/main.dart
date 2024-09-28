@@ -25,9 +25,11 @@ class Weather extends StatelessWidget {
         theme: ThemeData.light().copyWith(
             appBarTheme: AppBarTheme(
                 backgroundColor:
-                    BlocProvider.of<WeatherCubit>(context).weatherModel == null
+                    BlocProvider.of<WeatherCubit>(context, listen: true)
+                                .weatherModel ==
+                            null
                         ? Colors.blue
-                        : BlocProvider.of<WeatherCubit>(context)
+                        : BlocProvider.of<WeatherCubit>(context, listen: true)
                             .weatherModel!
                             .getcolor())));
   }
