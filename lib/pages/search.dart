@@ -1,11 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather/cubits/weather_cubit/weather_cubit.dart';
 import 'package:weather/models/weather_model.dart';
-import 'package:weather/provider/weather_provider.dart';
-
-import 'package:weather/services/weather_services.dart';
 
 class Search extends StatelessWidget {
   String? value;
@@ -25,24 +22,18 @@ class Search extends StatelessWidget {
                 value = val;
               },
               onSubmitted: (value) async {
-                WeatherModel? weather =
-                    await WeatherServices().getweather(CityName: value);
-                Provider.of<weatherProvider>(context, listen: false)
-                    .weathermodel = weather;
-                Provider.of<weatherProvider>(context, listen: false).cityname =
-                    value;
+                BlocProvider.of<WeatherCubit>(context).cityname = value;
+
+                BlocProvider.of<WeatherCubit>(context).getweather(value);
+
                 Navigator.pop(context);
               },
               autofocus: true,
               decoration: InputDecoration(
                 suffixIcon: GestureDetector(
                   onTap: () async {
-                    WeatherModel? weather =
-                        await WeatherServices().getweather(CityName: value!);
-                    Provider.of<weatherProvider>(context, listen: false)
-                        .weathermodel = weather;
-                    Provider.of<weatherProvider>(context, listen: false)
-                        .cityname = value;
+                    BlocProvider.of<WeatherCubit>(context).getweather(value!);
+                    BlocProvider.of<WeatherCubit>(context).cityname = value;
                     Navigator.pop(context);
                   },
                   child: const Icon(Icons.search),

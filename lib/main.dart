@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:weather/cubits/weather_cubit/weather_cubit.dart';
 import 'package:weather/models/weather_model.dart';
 
 import 'package:weather/pages/home.dart';
-import 'package:weather/provider/weather_provider.dart';
+
+import 'package:weather/services/weather_services.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) => weatherProvider(), child: const Weather()));
+  runApp(BlocProvider(
+      create: (context) => WeatherCubit(weather: WeatherServices()),
+      child: const Weather()));
 }
 
 class Weather extends StatelessWidget {
@@ -21,10 +25,10 @@ class Weather extends StatelessWidget {
         theme: ThemeData.light().copyWith(
             appBarTheme: AppBarTheme(
                 backgroundColor:
-                    Provider.of<weatherProvider>(context).getweather == null
+                    BlocProvider.of<WeatherCubit>(context).weatherModel == null
                         ? Colors.blue
-                        : Provider.of<weatherProvider>(context)
-                            .getweather!
+                        : BlocProvider.of<WeatherCubit>(context)
+                            .weatherModel!
                             .getcolor())));
   }
 }
